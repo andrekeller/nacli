@@ -40,11 +40,10 @@ class Repo:
     def git(self, *cmds, **kwargs):
         """execute a git command in the repository"""
         cmds = ('git',) + cmds
-        force_env = {
-            'GIT_TERMINAL_PROMPT': '0'
-        }
         env = kwargs.pop('env', os.environ.copy())
-        env.update(force_env)
+        # disable terminal prompts for git. otherwise git may ask for
+        # for username / passwords which would interrupt program flow
+        env.update({'GIT_TERMINAL_PROMPT': '0'})
         cwd = kwargs.pop('cwd', self._workdir)
         try:
             # the str is not actually needed, but pycharm's introspection does
