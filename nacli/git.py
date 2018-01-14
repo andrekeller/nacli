@@ -14,7 +14,11 @@ class GitError(Exception):
 
 
 class Repo:
-    """a git repository"""
+    """a git repository.
+
+    This class may be used as a context manager. In that case temporary
+    directory gets cleaned as soon as you exit the manager.
+    """
 
     def __init__(self, url):
         """create a working copy of a remote git repository"""
@@ -35,6 +39,7 @@ class Repo:
         return self
 
     def __exit__(self, *args):
+        LOG.debug('cleanup temporary directory %s', self._tmpdir.name)
         self._tmpdir.cleanup()
 
     def git(self, *cmds, **kwargs):
@@ -95,6 +100,7 @@ class Repo:
                     url=self._url
                 )
             )
+        LOG.debug('%s is a valid branch in %s', branch, self._url)
 
     def validate_tag(self, tag):
         """verify if repository has a specific tag"""
@@ -105,6 +111,7 @@ class Repo:
                     url=self._url
                 )
             )
+        LOG.debug('%s is a tag branch in %s', tag, self._url)
 
     def validate_commit(self, commit):
         """verify if repository has a specific commit"""
@@ -117,3 +124,4 @@ class Repo:
                     url=self._url
                 )
             )
+        LOG.debug('%s is a valid commit in %s', commit, self._url)
