@@ -1,0 +1,17 @@
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+
+# Distribution / packaging
+/build/
+/dist/
+/*.egg-info/
+
+# Sphinx documentation
+docs/_build/
+
+# Environments
+/.pyvenv/
+
+# IDE
+/.idea/workspace.xml
